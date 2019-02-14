@@ -11,7 +11,7 @@ export class ControlPanel extends Component {
     };
 
     onCheck = (e) => {
-        socket.emit(`action`, {word: `chack`});
+        socket.emit(`action`, {word: `check`});
     };
 
     onCall = (e) => {
@@ -30,11 +30,20 @@ export class ControlPanel extends Component {
         this.setState({ betValue: e.currentTarget.value })
     };
 
+    actionHandler = (e) => {
+        const { setVisible } = this.props;
+        if (e.target.classList.contains('action_button')) {
+            setVisible(false);
+        }
+    };
+
     render() {
         const { betValue } = this.state;
+        const { visible } = this.props;
 
-        return (
-            <div className="control_panel">
+        let content;
+        if (visible) {
+            content = <div>
                 <div>
                     <input
                         type="text"
@@ -51,13 +60,23 @@ export class ControlPanel extends Component {
                         onChange={this.handleBetInputChange}
                     />
                 </div>
-                <div>
-                    <button onClick={this.onFold}>FOLD</button>
-                    <button onClick={this.onCheck}>CHECK</button>
-                    <button onClick={this.onCall}>CALL</button>
-                    <button onClick={this.onBet}>{`BET ${betValue}`}</button>
-                    <button onClick={this.onRaise}>{`RAISE ${betValue}`}</button>
+                <div onClick={this.actionHandler}>
+                    <button className="action_button" onClick={this.onFold}>FOLD</button>
+                    <button className="action_button" onClick={this.onCheck}>CHECK</button>
+                    <button className="action_button" onClick={this.onCall}>CALL</button>
+                    <button className="action_button" onClick={this.onBet}>{`BET ${betValue}`}</button>
+                    <button className="action_button" onClick={this.onRaise}>{`RAISE ${betValue}`}</button>
                 </div>
+            </div>
+        } else {
+            content = <div>
+
+            </div>
+        }
+
+        return (
+            <div className="control_panel">
+                {content}
             </div>
         )
     }

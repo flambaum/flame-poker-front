@@ -19,9 +19,6 @@ export class Table extends Component {
                 <Pots pots={table.pots}/>
                 <Board board={table.board}/>
                 <Seats/>
-                <div>
-                    {table.hand}
-                </div>
 
             </div>
         )

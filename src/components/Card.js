@@ -6,13 +6,26 @@ export class Card extends Component {
         this.canvas = React.createRef();
     }
 
-    componentDidMount() {
-        const {size, rank, suit} = this.props;
+    drowCard = () => {
+        const {size, rank, suit, back} = this.props;
 
         const ctx = this.canvas.current.getContext('2d');
-        ctx.drawPokerCard(0, 0, size, suit, rank);
+        if (back){
+            ctx.drawPokerBack(0, 0, size, '#0E5989','#041D2D');
+        } else {
+            ctx.drawPokerCard(0, 0, size, suit, rank);
+        }
+    };
 
+    componentDidMount() {
+        this.drowCard();
     }
+
+    componentDidUpdate() {
+        this.drowCard();
+    }
+
+
 
     render() {
         const {size} = this.props;

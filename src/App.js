@@ -5,7 +5,9 @@ import socket from './socket';
 import { Header } from './components/Header';
 import { Table } from './components/Table';
 import { ControlPanel } from './components/ControlPanel';
-import { setButton, setNewSeats, setBoard, setPots, setTableBet, setHand } from './actions/TableActions';
+import { setButton, setNewSeats, setBoard, setPots, setTableBet } from './actions/TableActions';
+import { setHand, setName } from './actions/HeroActions';
+import { setVisible } from './actions/ControlActions';
 
 class App extends Component {
     state = {
@@ -32,6 +34,7 @@ class App extends Component {
         socket.on('connect', () => {
             socket.emit('get-info', {type: 'room-info'}, (data) => {
                 console.log(data);
+                const { setHeroName } = this.props;
                 const { buyIn, numSeats, runStack, structure, startTime } = data.options;
                 this.setState({
                     buyIn: buyIn,
@@ -40,7 +43,8 @@ class App extends Component {
                     structure: structure,
                     startTime: startTime,
                     heroName: data.hero.name,
-                })
+                });
+                setHeroName(data.hero.name);
             });
         });
 
@@ -49,6 +53,7 @@ class App extends Component {
         });
 
         socket.on('new-round', (data) => {
+            console.log('new-round');
             updateData(data);
         });
 
@@ -57,8 +62,40 @@ class App extends Component {
         });
 
         socket.on('deal-cards', (data) => {
+            console.log('deal-cards');
             const { setHand } = this.props;
             setHand(data.hand);
+        });
+
+        socket.on('expected-action', (data) => {
+            const { setVisible } = this.props;
+            setVisible(true);
+            console.log('expected-action', data);
+        });
+
+        socket.on('round-end', (data) => {
+
+            console.log('round-end', data);
+        });
+
+        socket.on('all-in', (data) => {
+
+            console.log('all-in', data);
+        });
+
+        socket.on(`waiting-player-move`, (data) => {
+
+            console.log(`waiting-player-move`, data);
+        });
+
+        socket.on(`action-completed`, (data) => {
+
+            console.log(`action-completed`, data);
+        });
+
+        socket.on(`player-acted`, (data) => {
+
+            console.log(`player-acted`, data);
         });
 
         socket.on('err', (data) => {
@@ -73,7 +110,8 @@ class App extends Component {
     }
 
     render() {
-        const { room, table } = this.props;
+        const { room, table, control } = this.props;
+        const { setVisible } = this.props;
         const { roomID, numSeats, buyIn, startTime } = this.state;
         return (
             <div className="App">
@@ -87,7 +125,11 @@ class App extends Component {
 
                 <main className="App-main">
                     <Table table={table} />
-                    <ControlPanel tableBet={table.tableBet}/>
+                    <ControlPanel
+                        tableBet={table.tableBet}
+                        visible={control.visible}
+                        setVisible={setVisible}
+                    />
                 </main>
 
             </div>
@@ -100,6 +142,7 @@ const mapStateToProps = store => {
     return {
         room: store.room,
         table: store.table,
+        control: store.control,
     }
 };
 
@@ -111,6 +154,8 @@ const mapDispatchToProps = dispatch => {
         setPots: (pots) => dispatch(setPots(pots)),
         setTableBet: (bet) => dispatch(setTableBet(bet)),
         setHand: (hand) => dispatch(setHand(hand)),
+        setHeroName: (name) => dispatch(setName(name)),
+        setVisible: (visible) => dispatch(setVisible(visible)),
     }
 };
 

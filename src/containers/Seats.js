@@ -9,15 +9,25 @@ class Seats extends Component {
     }
 
     render() {
-        const { seats } = this.props;
+        const { seats, hero } = this.props;
 
         const renderedSeats = [];
         for (const i in seats) {
-            const { name, stack, bet,  } = seats[i];
+            const { name, stack, bet, inGame } = seats[i];
+            let isHero = false;
+            let hand = null;
+            if (name === hero.name) {
+                isHero = true;
+                hand = hero.hand || null;
+            }
             renderedSeats[i] = <Seat
                 key={i}
                 name={name}
                 stack={stack}
+                inGame={inGame}
+                bet={bet}
+                hero={isHero}
+                hand={hand}
             />
         }
 

@@ -1,4 +1,4 @@
-import { SET_BUTTON, SET_NEW_SEATS, SET_BOARD, SET_POTS, SET_TABLE_BET, SET_HAND } from '../actions/TableActions';
+import { SET_BUTTON, SET_NEW_SEATS, SET_BOARD, SET_POTS, SET_TABLE_BET } from '../actions/TableActions';
 
 export const initialState = {
     seats: [],
@@ -6,7 +6,6 @@ export const initialState = {
     board: [],
     button: null,
     tableBet: 0,
-    hand: null,
 };
 
 export function tableReducer(state = initialState, action) {
@@ -29,10 +28,6 @@ export function tableReducer(state = initialState, action) {
 
         case SET_TABLE_BET: {
             return {...state, tableBet: action.payload}
-        }
-
-        case SET_HAND: {
-            return {...state, hand: action.payload}
         }
 
         default:
