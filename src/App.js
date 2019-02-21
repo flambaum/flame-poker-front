@@ -3,11 +3,20 @@ import { connect } from 'react-redux';
 import './App.css';
 import socket from './socket';
 import { Header } from './components/Header';
-import { Table } from './components/Table';
-import { ControlPanel } from './components/ControlPanel';
-import { setButton, setNewSeats, setBoard, setPots, setTableBet } from './actions/TableActions';
-import { setHand, setName } from './actions/HeroActions';
-import { setVisible } from './actions/ControlActions';
+import Table from './components/Table';
+import ControlPanel from './components/ControlPanel';
+import {
+    setButton,
+    setNewSeats,
+    setBoard,
+    setPots,
+    setTableBet,
+    setBigBlind,
+    setHands,
+    setSeat
+} from './actions/TableActions';
+import { setHand, setName, setHeroBet, setHeroStack } from './actions/HeroActions';
+import { setVisible, setAvailableActions } from './actions/ControlActions';
 
 class App extends Component {
     state = {
@@ -22,18 +31,25 @@ class App extends Component {
 
     setupSocket() {
         const updateData = (data) => {
-            const { setButton, setNewSeats, setBoard, setPots, setTableBet } = this.props;
+            const {
+                setButton,
+                setNewSeats,
+                setBoard,
+                setPots,
+                setTableBet,
+                setBigBlind,
+            } = this.props;
 
             setButton(data.button);
             setNewSeats(data.seats);
             setBoard(data.board);
             setPots(data.pots);
             setTableBet(data.bet);
+            setBigBlind(data.bigBlind);
         };
 
         socket.on('connect', () => {
             socket.emit('get-info', {type: 'room-info'}, (data) => {
-                console.log(data);
                 const { setHeroName } = this.props;
                 const { buyIn, numSeats, runStack, structure, startTime } = data.options;
                 this.setState({
@@ -54,6 +70,9 @@ class App extends Component {
 
         socket.on('new-round', (data) => {
             console.log('new-round');
+
+            const { setHands } = this.props;
+            setHands({});
             updateData(data);
         });
 
@@ -68,18 +87,25 @@ class App extends Component {
         });
 
         socket.on('expected-action', (data) => {
-            const { setVisible } = this.props;
+            const { setVisible, setTableBet, setAvailableActions, setHeroStack, setHeroBet } = this.props;
+            const { actions, tableBet, stack, bet } = data;
             setVisible(true);
+            setAvailableActions(actions);
+            setHeroStack(stack);
+            setHeroBet(bet);
+            setTableBet(tableBet);
             console.log('expected-action', data);
         });
 
         socket.on('round-end', (data) => {
-
+            const { setHands } = this.props;
+            setHands(data.hands);
             console.log('round-end', data);
         });
 
         socket.on('all-in', (data) => {
-
+            const { setHands } = this.props;
+            setHands(data);
             console.log('all-in', data);
         });
 
@@ -89,11 +115,18 @@ class App extends Component {
         });
 
         socket.on(`action-completed`, (data) => {
+            const { setHeroStack, setHeroBet, setVisible, setSeat } = this.props;
+            setVisible(false);
+            setHeroStack(data.stack);
+            setHeroBet(data.bet);
+            setSeat(data);
 
             console.log(`action-completed`, data);
         });
 
         socket.on(`player-acted`, (data) => {
+            const { setSeat } = this.props;
+            setSeat(data);
 
             console.log(`player-acted`, data);
         });
@@ -127,7 +160,9 @@ class App extends Component {
                     <Table table={table} />
                     <ControlPanel
                         tableBet={table.tableBet}
+                        bigBlind={table.bigBlind}
                         visible={control.visible}
+                        actions={control.availableActions}
                         setVisible={setVisible}
                     />
                 </main>
@@ -138,7 +173,6 @@ class App extends Component {
 }
 
 const mapStateToProps = store => {
-    console.log(store);
     return {
         room: store.room,
         table: store.table,
@@ -156,6 +190,12 @@ const mapDispatchToProps = dispatch => {
         setHand: (hand) => dispatch(setHand(hand)),
         setHeroName: (name) => dispatch(setName(name)),
         setVisible: (visible) => dispatch(setVisible(visible)),
+        setAvailableActions: (actions) => dispatch(setAvailableActions(actions)),
+        setBigBlind: (bb) => dispatch(setBigBlind(bb)),
+        setHeroStack: (stack) => dispatch(setHeroStack(stack)),
+        setHeroBet: (bet) => dispatch(setHeroBet(bet)),
+        setHands: (hands) => dispatch(setHands(hands)),
+        setSeat: (seat) => dispatch(setSeat(seat)),
     }
 };
 

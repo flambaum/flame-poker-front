@@ -4,7 +4,7 @@ import { Button } from './Button';
 import { Pots } from './Pots';
 import Seats from '../containers/Seats';
 
-export class Table extends Component {
+export default class Table extends Component {
 
 
     render() {

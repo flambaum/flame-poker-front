@@ -3,12 +3,21 @@ export const SET_NEW_SEATS = 'SET_NEW_SEATS';
 export const SET_BOARD = 'SET_BOARD';
 export const SET_POTS = 'SET_POTS';
 export const SET_TABLE_BET = 'SET_TABLE_BET';
-export const SET_HAND = 'SET_HAND';
+export const SET_BIG_BLIND = 'SET_BIG_BLIND';
+export const SET_HANDS = 'SET_HANDS';
+export const SET_SEAT = 'SET_SEAT';
 
 export function setButton(seat) {
     return {
         type: SET_BUTTON,
         payload: seat,
+    }
+}
+
+export function setBigBlind(bb) {
+    return {
+        type: SET_BIG_BLIND,
+        payload: bb,
     }
 }
 
@@ -40,9 +49,16 @@ export function setTableBet(bet) {
     }
 }
 
-export function setHand(hand) {
+export function setHands(hands) {
     return {
-        type: SET_HAND,
-        payload: hand,
+        type: SET_HANDS,
+        payload: hands,
+    }
+}
+
+export function setSeat(seat) {
+    return {
+        type: SET_SEAT,
+        payload: seat,
     }
 }

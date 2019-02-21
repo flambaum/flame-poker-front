@@ -4,11 +4,11 @@ import { SERVER_URL } from '../config';
 
 export class Seat extends Component {
     render() {
-        const { name, stack, bet, hero, hand, inGame } = this.props;
+        const { name, stack, bet, hand, inGame } = this.props;
 
         let handCards = null;
         if (inGame) {
-            if (hero && hand) {
+            if (hand) {
                 handCards = hand.map((card, index) => {
                     return (
                         <Card key={index}
@@ -20,11 +20,15 @@ export class Seat extends Component {
                 });
             } else {
                 handCards = [
-                    <Card size={40}
-                          back={true}
+                    <Card
+                        key="1"
+                        size={40}
+                        back={true}
                     />,
-                    <Card size={40}
-                    back={true}
+                    <Card
+                        key="2"
+                        size={40}
+                        back={true}
                     />
                 ]
             }
