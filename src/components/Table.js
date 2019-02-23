@@ -12,14 +12,9 @@ export default class Table extends Component {
 
         return (
             <div className="table">
-                <div className="table-pots">
-
-                </div>
-                <Button seat={table.button}/>
                 <Pots pots={table.pots}/>
                 <Board board={table.board}/>
                 <Seats/>
-
             </div>
         )
     }
