@@ -42,7 +42,7 @@
 }
 
 .table {
-  background-color: #016f4d;
+  background-color: #566770;
   height: 50vh;
   width: 70vw;
   display: flex;
@@ -52,6 +52,7 @@
   font-size: 16px;
   color: #e9eaeb;
   border-radius: 190px;
+  box-shadow: 0 0 2px 30px #282c34, inset 0 0 2px 1px #282c34;
 }
 
 .table-pots {
@@ -71,6 +72,15 @@
   width: 300px;
 }
 
+.button {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  color: crimson;
+  background-color: #282c34;
+  box-shadow: 3px 3px 6px #282c34, 2px 2px #3e4f5b;
+}
+
 .seats {
   /*display: flex;*/
   position: absolute;
@@ -81,49 +91,74 @@
 .seat {
   display: block;
   position: absolute;
-  color: darkblue;
+  color: #282c34;
+  font-size: 16px;
+  font-weight: bold;
   background-color: rgba(255,140,0,0.8);
-  /*border: 3px solid rgba(210,105,30,0.7);*/
   width: 22%;
   height: 100px;
   border-radius: 30px;
 }
 
 .seat p {
-  margin: 3px;
+  margin: 10px;
 }
 
-.seat-1-9 {
-  left: 63%;
-  top: -20%;
+.seat-bet {
+  color: #e9eaeb;
+  font-weight: normal;
+}
+
+.seat-1-9,
+.seat-1-5 {
+  right: 15%;
+  top: -15%;
 }
 
 .seat-2-9 {
-  right: -8%;
+  right: -17%;
+  top: 10%;
 }
 
-.seat-3-9 {
-  right: -8%;
-  bottom: -15%;
+.seat-3-9,
+.seat-2-5 {
+  right: -17%;
+  bottom: 10%;
 }
 
 .seat-4-9 {
+  right: 8%;
   bottom: -15%;
 }
 
 .seat-5-9,
+.seat-3-5,
 .seat-2-3{
   left: 40%;
   bottom: -15%;
 }
 
-.seat-6-9 {}
+.seat-6-9 {
+  left: 8%;
+  bottom: -15%;
+}
 
-.seat-7-9 {}
+.seat-7-9,
+.seat-4-5{
+  left: -17%;
+  bottom: 10%;
+}
 
-.seat-8-9 {}
+.seat-8-9 {
+  left: -17%;
+  top: 10%;
+}
 
-.seat-9-9 {}
+.seat-9-9,
+.seat-5-5{
+  left: 15%;
+  top: -15%;
+}
 
 .seat-1-6,
 .seat-1-4{
@@ -165,34 +200,80 @@
 
 .seat-avatar {
   width: 80px;
+  position: absolute;
 }
 
 .seat-right .seat-avatar{
-  position: absolute;
   left: 10px;
   top: 10px;
-  width: 80px;
-
 }
 
 .seat-left .seat-avatar{
-  position: absolute;
   right: 10px;
   top: 10px;
-  width: 80px;
-
 }
 
 .seat-right .seat-hand{
   position: absolute;
-  right: 10px;
+  right: 13px;
   top: 25%;
 }
 
 .seat-left .seat-hand {
   position: absolute;
-  left: 10px;
+  left: 13px;
   top: 25%;
+}
+.seat-table_info {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.seat-4-9 .seat-table_info,
+.seat-5-9 .seat-table_info,
+.seat-3-5 .seat-table_info,
+.seat-2-3 .seat-table_info,
+.seat-6-9 .seat-table_info,
+.seat-3-6 .seat-table_info,
+.seat-2-4 .seat-table_info,
+.seat-4-6 .seat-table_info,
+.seat-3-4 .seat-table_info {
+  top: -80%;
+  left: 45%;
+}
+
+.seat-1-9 .seat-table_info,
+.seat-1-5 .seat-table_info,
+.seat-9-9 .seat-table_info,
+.seat-5-5 .seat-table_info,
+.seat-1-6 .seat-table_info,
+.seat-1-4 .seat-table_info,
+.seat-6-6 .seat-table_info,
+.seat-4-4 .seat-table_info {
+  bottom: -80%;
+  left: 45%;
+}
+
+.seat-2-9 .seat-table_info,
+.seat-3-9 .seat-table_info,
+.seat-2-5 .seat-table_info,
+.seat-2-6 .seat-table_info,
+.seat-1-2 .seat-table_info,
+.seat-1-3 .seat-table_info {
+  left: -30%;
+  top: 10%;
+}
+
+.seat-7-9 .seat-table_info,
+.seat-4-5 .seat-table_info,
+.seat-8-9 .seat-table_info,
+.seat-5-6 .seat-table_info,
+.seat-2-2 .seat-table_info,
+.seat-3-3 .seat-table_info {
+  right: -30%;
+  top: 10%;
 }
 
 .control_panel {

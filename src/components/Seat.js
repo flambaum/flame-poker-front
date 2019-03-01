@@ -37,23 +37,25 @@ export class Seat extends Component {
 
         let numSeatMax = 9;
         if (numSeats <= 2) numSeatMax = 2;
-        else if (numSeats <= 3) numSeatMax = 3;
-        else if (numSeats <= 4) numSeatMax = 4;
-        else if (numSeats <= 6) numSeatMax = 6;
+        else if (numSeats === 3) numSeatMax = 3;
+        else if (numSeats === 4) numSeatMax = 4;
+        else if (numSeats === 5) numSeatMax = 5;
+        else if (numSeats === 6) numSeatMax = 6;
 
-
-
+        const positionClass = `seat-${seatID+1}-${numSeatMax} ${seatID+1  > numSeatMax/2 ? 'seat-left' : 'seat-right'}`;
 
         return (
-            <div className={`seat seat-${seatID+1}-${numSeatMax} ${seatID+1  > numSeatMax/2 ? 'seat-left' : 'seat-right'}`}>
+            <div className={`seat ${positionClass}`}>
                 <img src={`${SERVER_URL}/img/default-avatar.png`} alt="avatar" className="seat-avatar"/>
                 <p className="seat-user_name">{name}</p>
                 <p className="seat-stack">${stack}</p>
-                {bet ? <p className="seat-bet">{bet}</p> : null}
                 <div className="seat-hand" >
                     {handCards}
                 </div>
-                {button && <Button/>}
+                <div className="seat-table_info">
+                    {button && <Button/>}
+                    {bet ? <p className="seat-bet">${bet}</p> : null}
+                </div>
             </div>
         )
     }
