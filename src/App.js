@@ -13,7 +13,8 @@ import {
     setTableBet,
     setBigBlind,
     setHands,
-    setSeat
+    setSeat,
+    setActindPlayer,
 } from './actions/TableActions';
 import { setHand, setName, setHeroBet, setHeroStack } from './actions/HeroActions';
 import { setVisible, setAvailableActions } from './actions/ControlActions';
@@ -110,7 +111,8 @@ class App extends Component {
         });
 
         socket.on(`waiting-player-move`, (data) => {
-
+            const { setActingPlayer } = this.props;
+            setActingPlayer(data.seat);
             console.log(`waiting-player-move`, data);
         });
 
@@ -125,9 +127,9 @@ class App extends Component {
         });
 
         socket.on(`player-acted`, (data) => {
-            const { setSeat } = this.props;
+            const { setSeat, setActingPlayer } = this.props;
             setSeat(data);
-
+            setActingPlayer(null);
             console.log(`player-acted`, data);
         });
 
@@ -196,6 +198,7 @@ const mapDispatchToProps = dispatch => {
         setHeroBet: (bet) => dispatch(setHeroBet(bet)),
         setHands: (hands) => dispatch(setHands(hands)),
         setSeat: (seat) => dispatch(setSeat(seat)),
+        setActingPlayer: (seat) => dispatch(setActindPlayer(seat)),
     }
 };
 

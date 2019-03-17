@@ -7,6 +7,7 @@ import {
     SET_BIG_BLIND,
     SET_HANDS,
     SET_SEAT,
+    SET_ACTING_PLAYER,
 } from '../actions/TableActions';
 
 export const initialState = {
@@ -15,6 +16,7 @@ export const initialState = {
     pots: [],
     board: [],
     button: null,
+    actingPlayer: null,
     tableBet: 0,
     bigBlind: null,
 };
@@ -23,6 +25,10 @@ export function tableReducer(state = initialState, action) {
     switch (action.type) {
         case SET_BUTTON: {
             return {...state, button: action.payload}
+        }
+
+        case SET_ACTING_PLAYER: {
+            return {...state, actingPlayer: action.payload}
         }
 
         case SET_NEW_SEATS: {

@@ -9,7 +9,7 @@ class Seats extends Component {
     }
 
     render() {
-        const { seats, hero, hands, button } = this.props;
+        const { seats, hero, hands, button, actingPlayer } = this.props;
 
         const numSeats = Object.keys(seats).length;
         const renderedSeats = [];
@@ -33,6 +33,7 @@ class Seats extends Component {
                 hand={hand}
                 numSeats={numSeats}
                 button={button == i}
+                acting={actingPlayer == i}
             />
         }
 
@@ -50,6 +51,7 @@ const mapStateToProps = store => {
         hands: store.table.hands,
         hero: store.hero,
         button: store.table.button,
+        actingPlayer: store.table.actingPlayer,
     }
 };
 

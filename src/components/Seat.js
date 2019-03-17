@@ -5,7 +5,7 @@ import { SERVER_URL } from '../config';
 
 export class Seat extends Component {
     render() {
-        const { seatID, name, stack, bet, hand, inGame, numSeats, button } = this.props;
+        const { seatID, name, stack, bet, hand, inGame, numSeats, button, acting } = this.props;
 
         let handCards = null;
         if (inGame) {
@@ -45,7 +45,7 @@ export class Seat extends Component {
         const positionClass = `seat-${seatID+1}-${numSeatMax} ${seatID+1  > numSeatMax/2 ? 'seat-left' : 'seat-right'}`;
 
         return (
-            <div className={`seat ${positionClass}`}>
+            <div className={`seat ${positionClass} ${acting ? 'acting' : ''}`}>
                 <img src={`${SERVER_URL}/img/default-avatar.png`} alt="avatar" className="seat-avatar"/>
                 <p className="seat-user_name">{name}</p>
                 <p className="seat-stack">${stack}</p>

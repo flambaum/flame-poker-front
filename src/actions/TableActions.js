@@ -6,6 +6,7 @@ export const SET_TABLE_BET = 'SET_TABLE_BET';
 export const SET_BIG_BLIND = 'SET_BIG_BLIND';
 export const SET_HANDS = 'SET_HANDS';
 export const SET_SEAT = 'SET_SEAT';
+export const SET_ACTING_PLAYER = 'SET_ACTING_PLAYER';
 
 export function setButton(seat) {
     return {
@@ -59,6 +60,13 @@ export function setHands(hands) {
 export function setSeat(seat) {
     return {
         type: SET_SEAT,
+        payload: seat,
+    }
+}
+
+export function setActindPlayer(seat) {
+    return {
+        type: SET_ACTING_PLAYER,
         payload: seat,
     }
 }
