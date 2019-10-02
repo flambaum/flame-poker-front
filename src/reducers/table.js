@@ -8,6 +8,7 @@ import {
     SET_HANDS,
     SET_SEAT,
     SET_ACTING_PLAYER,
+    SET_WINNERS, SET_TABLE_RAISE,
 } from '../actions/TableActions';
 
 export const initialState = {
@@ -18,7 +19,9 @@ export const initialState = {
     button: null,
     actingPlayer: null,
     tableBet: 0,
+    tableRaise: 0,
     bigBlind: null,
+    winners: [],
 };
 
 export function tableReducer(state = initialState, action) {
@@ -47,12 +50,20 @@ export function tableReducer(state = initialState, action) {
             return {...state, tableBet: action.payload}
         }
 
+        case SET_TABLE_RAISE: {
+            return {...state, tableRaise: action.payload}
+        }
+
         case SET_BIG_BLIND: {
             return {...state, bigBlind: action.payload}
         }
 
         case SET_HANDS: {
             return {...state, hands: action.payload}
+        }
+
+        case SET_WINNERS: {
+            return {...state, winners: action.payload}
         }
 
         case SET_SEAT: {

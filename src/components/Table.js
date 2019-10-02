@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Board } from './Board';
-import { Button } from './Button';
 import { Pots } from './Pots';
 import Seats from '../containers/Seats';
 

@@ -11,10 +11,12 @@ import {
     setBoard,
     setPots,
     setTableBet,
+    setTableRaise,
     setBigBlind,
     setHands,
     setSeat,
     setActindPlayer,
+    setWinners,
 } from './actions/TableActions';
 import { setHand, setName, setHeroBet, setHeroStack } from './actions/HeroActions';
 import { setVisible, setAvailableActions } from './actions/ControlActions';
@@ -51,6 +53,7 @@ class App extends Component {
 
         socket.on('connect', () => {
             socket.emit('get-info', {type: 'room-info'}, (data) => {
+                if (!data) return;
                 const { setHeroName } = this.props;
                 const { buyIn, numSeats, runStack, structure, startTime } = data.options;
                 this.setState({
@@ -72,8 +75,9 @@ class App extends Component {
         socket.on('new-round', (data) => {
             console.log('new-round');
 
-            const { setHands } = this.props;
+            const { setHands, setWinners } = this.props;
             setHands({});
+            setWinners([]);
             updateData(data);
         });
 
@@ -88,19 +92,31 @@ class App extends Component {
         });
 
         socket.on('expected-action', (data) => {
-            const { setVisible, setTableBet, setAvailableActions, setHeroStack, setHeroBet } = this.props;
-            const { actions, tableBet, stack, bet } = data;
+            const {
+                setVisible,
+                setTableBet,
+                setAvailableActions,
+                setHeroStack,
+                setHeroBet,
+                setActingPlayer,
+                setTableRaise,
+            } = this.props;
+
+            const { actions, tableBet, stack, bet, seatNum, tableRaise } = data;
             setVisible(true);
             setAvailableActions(actions);
             setHeroStack(stack);
             setHeroBet(bet);
             setTableBet(tableBet);
+            setTableRaise(tableRaise);
+            setActingPlayer(seatNum);
             console.log('expected-action', data);
         });
 
         socket.on('round-end', (data) => {
-            const { setHands } = this.props;
+            const { setHands, setWinners } = this.props;
             setHands(data.hands);
+            setWinners(data.winners);
             console.log('round-end', data);
         });
 
@@ -117,11 +133,12 @@ class App extends Component {
         });
 
         socket.on(`action-completed`, (data) => {
-            const { setHeroStack, setHeroBet, setVisible, setSeat } = this.props;
+            const { setHeroStack, setHeroBet, setVisible, setSeat, setActingPlayer } = this.props;
             setVisible(false);
             setHeroStack(data.stack);
             setHeroBet(data.bet);
             setSeat(data);
+            setActingPlayer(null);
 
             console.log(`action-completed`, data);
         });
@@ -162,6 +179,7 @@ class App extends Component {
                     <Table table={table} />
                     <ControlPanel
                         tableBet={table.tableBet}
+                        tableRaise={table.tableRaise}
                         bigBlind={table.bigBlind}
                         visible={control.visible}
                         actions={control.availableActions}
@@ -189,6 +207,7 @@ const mapDispatchToProps = dispatch => {
         setBoard: (board) => dispatch(setBoard(board)),
         setPots: (pots) => dispatch(setPots(pots)),
         setTableBet: (bet) => dispatch(setTableBet(bet)),
+        setTableRaise: (raise) => dispatch(setTableRaise(raise)),
         setHand: (hand) => dispatch(setHand(hand)),
         setHeroName: (name) => dispatch(setName(name)),
         setVisible: (visible) => dispatch(setVisible(visible)),
@@ -199,6 +218,7 @@ const mapDispatchToProps = dispatch => {
         setHands: (hands) => dispatch(setHands(hands)),
         setSeat: (seat) => dispatch(setSeat(seat)),
         setActingPlayer: (seat) => dispatch(setActindPlayer(seat)),
+        setWinners: (winners) => dispatch(setWinners(winners)),
     }
 };
 

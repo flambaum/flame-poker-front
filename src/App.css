@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+.hidden {
+  display: none;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 10vh;
@@ -21,6 +25,7 @@
 .logo {
   align-self: center;
   margin-right: 20px;
+  width: 120px;
 }
 
 .App-title {
@@ -103,6 +108,11 @@
 .seat.acting {
   border: 1px solid limegreen;
   box-shadow: 0 0 10px 3px limegreen;
+}
+
+.seat-winner {
+  border: 1px solid fuchsia;
+  box-shadow: 0 0 10px 3px fuchsia;
 }
 
 .seat p {
@@ -286,4 +296,6 @@
   right: 0;
   bottom: 0;
   padding: 30px;
+  border: 4px solid #282c34;
+  border-radius: 10px;
 }

@@ -9,7 +9,7 @@ class Seats extends Component {
     }
 
     render() {
-        const { seats, hero, hands, button, actingPlayer } = this.props;
+        const { seats, hero, hands, button, actingPlayer, winners } = this.props;
 
         const numSeats = Object.keys(seats).length;
         const renderedSeats = [];
@@ -21,6 +21,15 @@ class Seats extends Component {
                 isHero = true;
                 hand = hero.hand || null;
             }
+
+            let winning = 0;
+            winners.forEach((pot)=>{
+                pot.winners.forEach((winner)=>{
+                    if (winner.seat === i) {
+                        winning += winner.chips;
+                    }
+                })
+            })
 
             renderedSeats[i] = <Seat
                 key={i}
@@ -34,6 +43,8 @@ class Seats extends Component {
                 numSeats={numSeats}
                 button={button == i}
                 acting={actingPlayer == i}
+                winning={winning}
+                roundEnd={Boolean(winners.length)}
             />
         }
 
@@ -52,6 +63,7 @@ const mapStateToProps = store => {
         hero: store.hero,
         button: store.table.button,
         actingPlayer: store.table.actingPlayer,
+        winners: store.table.winners,
     }
 };
 

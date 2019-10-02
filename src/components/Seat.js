@@ -5,7 +5,7 @@ import { SERVER_URL } from '../config';
 
 export class Seat extends Component {
     render() {
-        const { seatID, name, stack, bet, hand, inGame, numSeats, button, acting } = this.props;
+        const { seatID, name, stack, bet, hand, inGame, numSeats, button, acting, winning, roundEnd } = this.props;
 
         let handCards = null;
         if (inGame) {
@@ -45,7 +45,7 @@ export class Seat extends Component {
         const positionClass = `seat-${seatID+1}-${numSeatMax} ${seatID+1  > numSeatMax/2 ? 'seat-left' : 'seat-right'}`;
 
         return (
-            <div className={`seat ${positionClass} ${acting ? 'acting' : ''}`}>
+            <div className={`seat ${positionClass} ${acting ? 'acting' : ''} ${winning ? 'seat-winner' : ''}`}>
                 <img src={`${SERVER_URL}/img/default-avatar.png`} alt="avatar" className="seat-avatar"/>
                 <p className="seat-user_name">{name}</p>
                 <p className="seat-stack">${stack}</p>
@@ -54,7 +54,8 @@ export class Seat extends Component {
                 </div>
                 <div className="seat-table_info">
                     {button && <Button/>}
-                    {bet ? <p className="seat-bet">${bet}</p> : null}
+                    {bet && !roundEnd ? <p className="seat-bet">${bet}</p> : null}
+                    {winning ? <p className="seat-bet">${winning}</p> : null}
                 </div>
             </div>
         )
